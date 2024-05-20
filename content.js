@@ -76,23 +76,38 @@ function injectTestText(itemCard) {
     const itemPrefix = itemCard.querySelector('.prefix');
     const itemName = itemCard.querySelector('p.size-medium.font-bold.text-light-1');
     const itemTypeAndCondition = Array.from(itemCard.querySelectorAll('p.size-small.font-bold'));
-    
-    if (itemName && itemTypeAndCondition.length > 0) {
-        let itemType = '';
-        let itemCondition = '';
-    
-        itemTypeAndCondition.forEach(element => {
-          const isCondition = element.classList.contains('flex-shrink-0') && element.classList.contains('uppercase');
-          if (isCondition) {
-            itemCondition = element.textContent.trim();
-          } else {
-            itemType = element.textContent.trim();
-          }
-        });
-        const formattedName = `${itemPrefix ? `${itemPrefix.textContent} ` : ''}${itemType} | ${itemName.textContent.trim()} (${itemCondition})`;
-        console.log(formattedName);
+
+
+    let itemType = '';
+    let itemCondition = '';
+  
+    itemTypeAndCondition.forEach(element => {
+      const isCondition = element.classList.contains('flex-shrink-0') && element.classList.contains('uppercase');
+      if (isCondition) {
+        itemCondition = element.textContent.trim();
+      } else {
+        itemType = element.textContent.trim();
       }
+    });
+  
+    let formattedName = `${itemPrefix ? `${itemPrefix.textContent} ` : ''}${itemType}`;
+
+
+    // If the formatted name is empty its probably a vanilla knife where itemType is "" and itemName is the the only thing that exists
+    if (formattedName == "") {
+        formattedName += `${itemName.textContent.trim()}`;
+    // Else it is a regular item and we append the itemName and itemCondition to itemType
+    } else {
+        if (itemName) {
+            formattedName += ` | ${itemName.textContent.trim()}`;
+        }
+
+        if (itemCondition) {
+            formattedName += ` (${itemCondition})`;
+        }
     }
+    console.log(formattedName);
+  }
   
   function observeItemCards() {
     const itemCardsContainer = document.querySelector('.items-grid');

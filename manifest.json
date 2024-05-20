@@ -5,7 +5,7 @@
     "description": "Injects extra data into item cards on csgoempire.com",
     "permissions": [
       "activeTab"
-    ],
+    ],  
     "content_scripts": [
       {
         "matches": ["https://csgoempire.com/*"],

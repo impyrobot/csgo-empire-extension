@@ -46,35 +46,48 @@ function injectTestText(itemCard) {
             container.appendChild(percentElement);
             container.appendChild(currentTestElement);
 
-            // Create a sub-container for the additional elements
-            const subContainer = document.createElement('div');
-            subContainer.classList.add('sub-container');
-            subContainer.style.marginTop = '4px';
-            subContainer.style.display = 'flex'; // Use flexbox for layout
-            subContainer.style.justifyContent = 'space-around'; // Add space between children
+            const targetDiv = itemCard.querySelector('.my-sm.flex.h-full.flex-col.justify-between.px-lg.pb-md');
 
-            // Create buffPercentageElement
-            const buffPercentageElement = document.createElement('div');
-            buffPercentageElement.classList.add('buff-percentage-element');
-            buffPercentageElement.textContent = 'buff%';
-            buffPercentageElement.style.fontSize = '12px';
-            buffPercentageElement.style.color = 'white'; // Set text color to white
-            buffPercentageElement.style.textAlign = 'center'; // Center text horizontally
-            buffPercentageElement.style.margin = '0 8px'; // Adjust margin to reduce space
-            subContainer.appendChild(buffPercentageElement);
+            if (targetDiv) {
+                // Create a sub-container for the additional elements
+                const subContainer = document.createElement('div');
+                subContainer.classList.add('sub-container');
+                subContainer.style.marginTop = '4px';
+                subContainer.style.display = 'flex';
+                subContainer.style.justifyContent = 'flex-start';
+                subContainer.style.gap = '0px'; // Add 10px gap between elements
 
-            // Create liquidityElement
-            const liquidityElement = document.createElement('div');
-            liquidityElement.classList.add('liquidity-element');
-            liquidityElement.textContent = 'liq';
-            liquidityElement.style.fontSize = '12px';
-            liquidityElement.style.color = 'white'; // Set text color to white
-            liquidityElement.style.textAlign = 'center'; // Center text horizontally
-            liquidityElement.style.margin = '0 8px'; // Adjust margin to reduce space
-            subContainer.appendChild(liquidityElement);
-            
-            // Insert the sub-container before the last child of itemCard
-            itemCard.insertBefore(subContainer, itemCard.lastChild);
+                // Create favicon element
+                const buffImageElement = document.createElement('img');
+                buffImageElement.src = 'https://buff.163.com/favicon.ico'; // Replace with the actual path or URL of your favicon image
+                buffImageElement.alt = 'Buff';
+                buffImageElement.style.width = '16px'; // Adjust the width as needed
+                buffImageElement.style.height = '16px'; // Adjust the height as needed
+                subContainer.appendChild(buffImageElement);
+      
+                // Create buffPercentageElement
+                const buffPercentageElement = document.createElement('div');
+                buffPercentageElement.classList.add('buff-percentage-element');
+                buffPercentageElement.textContent = 'XX.XX%';
+                buffPercentageElement.style.fontSize = '12px';
+                buffPercentageElement.style.color = 'white';
+                buffPercentageElement.style.textAlign = 'center';
+                // buffPercentageElement.style.margin = '0 8px';
+                subContainer.appendChild(buffPercentageElement);
+      
+                // Create liquidityElement
+                const liquidityElement = document.createElement('div');
+                liquidityElement.classList.add('liquidity-element');
+                liquidityElement.textContent = 'XXX liqudity';
+                liquidityElement.style.fontSize = '12px';
+                liquidityElement.style.color = 'white';
+                liquidityElement.style.textAlign = 'center';
+                liquidityElement.style.margin = '0 8px';
+                subContainer.appendChild(liquidityElement);
+      
+                // Insert the sub-container into the target div
+                targetDiv.appendChild(subContainer);
+            }
           }
   
           // Check if the item has bids

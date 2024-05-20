@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "CSGO Empire Inventory Enhancer",
+  "version": "1.0",
+  "description": "Enhances CSGO Empire by fetching buff data from a pricempire API.",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://csgoempire.com/withdraw/steam/market/*",
+    "https://csgoempire.com/item/*",
+    "https://api.pricempire.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://csgoempire.com/withdraw/steam/market/*",
+        "https://csgoempire.com/item/*",
+        "https://csgoempire.com/*"
+      ],
+      "js": ["content.js", "priceEmpireItemsPrices.js"]
+    }
+  ]
+}

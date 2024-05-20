@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "CSGO Empire Extension",
+    "version": "1.0",
+    "description": "Injects extra data into item cards on csgoempire.com",
+    "permissions": [
+      "activeTab"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["https://csgoempire.com/*"],
+        "js": ["content.js"]
+      }
+    ]
+  }

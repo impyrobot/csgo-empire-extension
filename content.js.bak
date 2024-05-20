@@ -1,0 +1,50 @@
+// Function to extract item data from the page
+function extractItemData() {
+  const items = document.querySelectorAll('.item-card');
+  const itemData = [];
+  items.forEach(item => {
+    const itemType = item.querySelector('p.size-small.font-bold').textContent;
+    const itemName = item.querySelector('p.size-medium.font-bold.text-light-1').textContent;
+    const itemCondition = item.querySelector('p.size-small.font-bold.flex-shrink-0.uppercase').textContent;
+    const itemPrice = item.querySelector('span.font-numeric.inline-flex.items-baseline.justify-center.font-bold.text-large div.font-numeric').textContent;
+    const formattedName = `${itemType} | ${itemName} (${itemCondition})`;
+    itemData.push({ name: formattedName, price: itemPrice });
+  });
+  return itemData;
+}
+
+// Function to inject API data into the page
+function injectApiData(apiData) {
+  const items = document.querySelectorAll('.item-card');
+  items.forEach((item, index) => {
+    const buffPercentageElement = document.createElement('div');
+    buffPercentageElement.textContent = `Buff Percentage: ${apiData[index].buffPercentage}%`;
+    item.appendChild(buffPercentageElement);
+    const buffLiquidityElement = document.createElement('div');
+    buffLiquidityElement.textContent = `Buff Liquidity: ${apiData[index].buffLiquidity}`;
+    item.appendChild(buffLiquidityElement);
+  });
+}
+
+
+// Observe changes in the DOM
+const observer = new MutationObserver(async (mutations) => {
+  mutations.forEach(async (mutation) => {
+    if (mutation.type === 'childList') {
+      const itemData = extractItemData();
+      const apiData = await makeApiCall(itemData);
+      injectApiData(apiData);
+    }
+  });
+});
+
+// Start observing the target node for changes
+const targetNode = document.querySelector('body');
+observer.observe(targetNode, { childList: true, subtree: true });
+
+// Run the initial data injection
+window.addEventListener('DOMContentLoaded', async () => {
+  const itemData = extractItemData();
+  const apiData = await makeApiCall(itemData);
+  injectApiData(apiData);
+});

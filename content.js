@@ -1,23 +1,30 @@
-let itemCounter = {};
-
 function injectTestText(itemCard) {
-    const testElement = document.createElement('div');
-    testElement.textContent = 'test';
-    testElement.style.color = 'white';
-    testElement.style.backgroundColor = 'red';
-    itemCard.insertBefore(testElement, itemCard.firstChild);
-
+    let testElement = itemCard.querySelector('.test-element');
+    
+    if (!testElement) {
+      // If the test element doesn't exist, create it
+      testElement = document.createElement('div');
+      testElement.classList.add('test-element');
+      testElement.style.color = 'white';
+      testElement.style.backgroundColor = 'red';
+      itemCard.insertBefore(testElement, itemCard.firstChild);
+    }
+    
     const percentElement = itemCard.querySelector('[data-testid="real-price-percent"]');
-  
+    
     if (percentElement) {
-        const testElement = document.createElement('div');
-        testElement.textContent = 'test';
+      let testElement = percentElement.parentNode.querySelector('.test-element');
+      
+      if (!testElement) {
+        // If the test element doesn't exist within the container, create it
+        testElement = document.createElement('div');
+        testElement.classList.add('test-element');
         
         // Get the computed styles of the percent element
         const percentStyles = window.getComputedStyle(percentElement);
         
         // Apply the styles to the test element
-        testElement.style.fontSize = '12px'; // Set the font size to 12px
+        testElement.style.fontSize = '12px';
         testElement.style.fontWeight = percentStyles.fontWeight;
         testElement.style.color = percentStyles.color;
         testElement.style.backgroundColor = percentStyles.backgroundColor;
@@ -28,11 +35,27 @@ function injectTestText(itemCard) {
         // Wrap the percent element and test element in a new container
         const container = document.createElement('div');
         container.classList.add('flex', 'items-center');
-        
         percentElement.parentNode.insertBefore(container, percentElement);
         container.appendChild(percentElement);
         container.appendChild(testElement);
       }
+      
+      // Check if the item has bids
+      const bidElement = itemCard.querySelector('.icon-container + .size-medium');
+      
+      if (bidElement) {
+        const bidCount = parseInt(bidElement.textContent.trim());
+        testElement.textContent = `test ${bidCount}`;
+        
+        // Add orange border to the item card
+        itemCard.style.border = '2px solid orange';
+      } else {
+        testElement.textContent = 'test';
+        
+        // Remove orange border from the item card
+        itemCard.style.border = 'none';
+      }
+    }
   }
   
   function observeItemCards() {

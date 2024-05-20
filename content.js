@@ -38,13 +38,43 @@ function injectTestText(itemCard) {
             currentTestElement.style.borderRadius = percentStyles.borderRadius;
             currentTestElement.style.marginLeft = '4px';
             currentTestElement.style.position = 'relative'; // Add position relative for layout
-  
+    
             // Wrap the percent element and test element in a new container
             const container = document.createElement('div');
-            container.classList.add('flex', 'items-center');
+            container.classList.add('flex', 'items-center'); // Add flex-col to stack elements vertically
             percentElement.parentNode.insertBefore(container, percentElement);
             container.appendChild(percentElement);
             container.appendChild(currentTestElement);
+
+            // Create a sub-container for the additional elements
+            const subContainer = document.createElement('div');
+            subContainer.classList.add('sub-container');
+            subContainer.style.marginTop = '4px';
+            subContainer.style.display = 'flex'; // Use flexbox for layout
+            subContainer.style.justifyContent = 'space-around'; // Add space between children
+
+            // Create buffPercentageElement
+            const buffPercentageElement = document.createElement('div');
+            buffPercentageElement.classList.add('buff-percentage-element');
+            buffPercentageElement.textContent = 'buff%';
+            buffPercentageElement.style.fontSize = '12px';
+            buffPercentageElement.style.color = 'white'; // Set text color to white
+            buffPercentageElement.style.textAlign = 'center'; // Center text horizontally
+            buffPercentageElement.style.margin = '0 8px'; // Adjust margin to reduce space
+            subContainer.appendChild(buffPercentageElement);
+
+            // Create liquidityElement
+            const liquidityElement = document.createElement('div');
+            liquidityElement.classList.add('liquidity-element');
+            liquidityElement.textContent = 'liq';
+            liquidityElement.style.fontSize = '12px';
+            liquidityElement.style.color = 'white'; // Set text color to white
+            liquidityElement.style.textAlign = 'center'; // Center text horizontally
+            liquidityElement.style.margin = '0 8px'; // Adjust margin to reduce space
+            subContainer.appendChild(liquidityElement);
+            
+            // Insert the sub-container before the last child of itemCard
+            itemCard.insertBefore(subContainer, itemCard.lastChild);
           }
   
           // Check if the item has bids
@@ -92,6 +122,7 @@ function injectTestText(itemCard) {
   
     let formattedName = `${itemPrefix ? `${itemPrefix.textContent} ` : ''}${itemType}`;
 
+    //TODO - Add handling for gems (maybe also agent skins? stickers?)
 
     // If the formatted name is empty its probably a vanilla knife where itemType is "" and itemName is the the only thing that exists
     if (formattedName == "") {
